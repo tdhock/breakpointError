@@ -1,19 +1,20 @@
 \name{estimateBreaks}
 \alias{estimateBreaks}
 \title{estimateBreaks}
-\description{Estimate the base positions after which a break occured in the
-latent signal, given an imperfect estimate.}
-\usage{estimateBreaks(estimate, base = seq_along(estimate))}
+\description{Estimate the \code{base} positions after which a break occured in the
+latent signal, given an imperfect \code{estimate}.}
+\usage{estimateBreaks(estimate, 
+    base = seq_along(estimate))}
 \arguments{
   \item{estimate}{Numeric vector: the estimated signal.}
-  \item{base}{Integer vector: the base positions where the estimated signal was
+  \item{base}{Integer vector: the \code{base} positions where the estimated signal was
 sampled.}
 }
 
 \value{Integer vector: the estimated positions of breaks in the latent
 signal.}
 
-\author{Toby Dylan Hocking}
+\author{Toby Dylan Hocking <toby.hocking@r-project.org> [aut, cre]}
 
 
 

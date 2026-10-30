@@ -486,8 +486,6 @@ to get the FP, FN, and $I$ components for each model.
 
 <<components,fig=TRUE,height=3,width=7>>=
 e <- errorComponents(L$breaks, latent.breaks, length(latent))
-library(reshape2)
-dcast(e,segments~type,value.var="error")
 library(ggplot2)
 p <- ggplot(e,aes(segments,error))+
   geom_line(aes(size=type,colour=type,linetype=type))+

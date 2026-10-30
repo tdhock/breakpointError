@@ -4,17 +4,18 @@
 \description{Calculate the components of the exact breakpoint error. We assume
 there is a latent piecewise constant signal defined on
 1,...,last.base.}
-\usage{errorDetails(guess, breaks, last.base)}
+\usage{errorDetails(guess, breaks, 
+    last.base)}
 \arguments{
   \item{guess}{Integer vector of bases after which you estimate a break occured.}
-  \item{breaks}{Integer vector of bases after which there are breaks in the latent
+  \item{breaks}{Integer vector of bases after which there are \code{breaks} in the latent
 signal.}
   \item{last.base}{Integer scalar, the last base of the latent signal to model.}
 }
 
 \value{A list with components used to calculate the breakpoint error.}
 
-\author{Toby Dylan Hocking}
+\author{Toby Dylan Hocking <toby.hocking@r-project.org> [aut, cre]}
 
 
 

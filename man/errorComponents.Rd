@@ -1,9 +1,10 @@
 \name{errorComponents}
 \alias{errorComponents}
 \title{errorComponents}
-\description{Create a data.frame of components of the breakpointError that is
+\description{Create a data.frame of components of the \code{\link{breakpointError}} that is
 easy to plot.}
-\usage{errorComponents(guess.list, breaks, last.base)}
+\usage{errorComponents(guess.list, 
+    breaks, last.base)}
 \arguments{
   \item{guess.list}{List of integer vectors of guesses.}
   \item{breaks}{Integer vector of bases after which there is a break in the latent
@@ -11,10 +12,10 @@ signal.}
   \item{last.base}{Integer scalar, the last base in the latent signal.}
 }
 
-\value{Components of the breakpointError, described in a data.frame with
+\value{Components of the \code{\link{breakpointError}}, described in a data.frame with
 columns type, error, segments.}
 
-\author{Toby Dylan Hocking}
+\author{Toby Dylan Hocking <toby.hocking@r-project.org> [aut, cre]}
 
 
 

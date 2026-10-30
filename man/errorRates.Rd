@@ -3,7 +3,8 @@
 \title{errorRates}
 \description{Compute false positive and false negative rates in order to draw
 ROC curves.}
-\usage{errorRates(guess.list, break.vec, last.base)}
+\usage{errorRates(guess.list, 
+    break.vec, last.base)}
 \arguments{
   \item{guess.list}{List of integer vectors, model guesses.}
   \item{break.vec}{Integer vector, breakpoints in true signal.}
@@ -12,7 +13,7 @@ ROC curves.}
 
 \value{data.frame with columns FP, FN, FPR, FNR, TPR.}
 
-\author{Toby Dylan Hocking}
+\author{Toby Dylan Hocking <toby.hocking@r-project.org> [aut, cre]}
 
 
 
@@ -66,7 +67,7 @@ ggplot()+
              data=min.err,
              pch=1)+
   geom_text(aes(FPR+xdiff*0.01, TPR, color=package,
-                label=sprintf("FP=\%d\nFN=\%d\nI=\%.1f\n\%s",
+                label=sprintf("FP=\%d\\nFN=\%d\\nI=\%.1f\\n\%s",
                   FP, FN, I, package)),
             data=min.err)+
   geom_path(aes(FPR, TPR, group=package, color=package),
