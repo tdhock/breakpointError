@@ -43,34 +43,33 @@ flsa.rates <- errorRates(flsa.list, mu.break.after, length(mu))
 
 ## Segment that signal with cghseg, and quantify model fit using the
 ## breakpointError.
-result <- run.cghseg(signal, base, maxSegments=15)
-cghseg.rates <- errorRates(result$breaks, mu.break.after, length(mu))
-
-rates <-
-  rbind(data.frame(cghseg.rates, package="cghseg"),
-        data.frame(flsa.rates, package="flsa"))
-
-getMin <- function(df, package, xdiff){
-  m <- subset(df, seq_along(error)==which.min(error))
-  data.frame(m, package, xdiff)
+if(requireNamespace("jointseg") && require("ggplot2")){
+  result <- run.cghseg(signal, base, maxSegments=15)
+  cghseg.rates <- errorRates(result$breaks, mu.break.after, length(mu))
+  rates <-
+    rbind(data.frame(cghseg.rates, package="cghseg"),
+          data.frame(flsa.rates, package="flsa"))
+  getMin <- function(df, package, xdiff){
+    m <- subset(df, seq_along(error)==which.min(error))
+    data.frame(m, package, xdiff)
+  }
+  min.err <-
+    rbind(getMin(cghseg.rates, "cghseg", -1),
+          getMin(flsa.rates, "flsa", 1))  
+  ggplot()+
+    ggtitle("ROC curves and minimum breakpointError of two models")+
+    scale_y_continuous("True positive rate", limits=c(0, 1))+
+    scale_x_continuous("False positive rate")+
+    guides(color="none")+
+    geom_point(aes(FPR, TPR, color=package),
+               data=min.err,
+               pch=1)+
+    geom_text(aes(FPR+xdiff*0.01, TPR, color=package,
+                  label=sprintf("FP=\%d\\nFN=\%d\\nI=\%.1f\\n\%s",
+                                FP, FN, I, package)),
+              data=min.err)+
+    geom_path(aes(FPR, TPR, group=package, color=package),
+              data=rates)
 }
-min.err <-
-  rbind(getMin(cghseg.rates, "cghseg", -1),
-        getMin(flsa.rates, "flsa", 1))
-
-ggplot()+
-  ggtitle("ROC curves and minimum breakpointError of two models")+
-  scale_y_continuous("True positive rate", limits=c(0, 1))+
-  scale_x_continuous("False positive rate")+
-  guides(color="none")+
-  geom_point(aes(FPR, TPR, color=package),
-             data=min.err,
-             pch=1)+
-  geom_text(aes(FPR+xdiff*0.01, TPR, color=package,
-                label=sprintf("FP=\%d\\nFN=\%d\\nI=\%.1f\\n\%s",
-                  FP, FN, I, package)),
-            data=min.err)+
-  geom_path(aes(FPR, TPR, group=package, color=package),
-            data=rates)
 
 }

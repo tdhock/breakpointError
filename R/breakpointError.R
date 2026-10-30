@@ -29,9 +29,12 @@ errorDetails <- structure(function
 
   ## Segment that signal with cghseg, and quantify model fit using the
   ## breakpointError.
-  result <- run.cghseg(signal,base,maxSegments=15)
-  str(errorDetails(result$breaks[[4]], mu.break.after, length(mu)))
-  str(errorDetails(result$breaks[[10]], mu.break.after, length(mu)))
+  if(requireNamespace("jointseg")){
+    result <- run.cghseg(signal,base,maxSegments=15)
+    str(errorDetails(result$breaks[[4]], mu.break.after, length(mu)))
+    str(errorDetails(result$breaks[[10]], mu.break.after, length(mu)))
+  }
+  
 })
 
 errorComponents <- structure(function
@@ -80,17 +83,21 @@ errorComponents <- structure(function
 
   ## Segment that signal with cghseg, and quantify model fit using the
   ## breakpointError.
-  result <- run.cghseg(signal, base, maxSegments=15)
-  components <- errorComponents(result$breaks, mu.break.after, length(mu))
-  library(ggplot2)
-  p <- ggplot(components,aes(segments,error))+
-    geom_line(aes(size=type,colour=type,linetype=type))+
-    scale_linetype_manual(values=fp.fn.linetypes)+
-    scale_colour_manual(values=fp.fn.colors)+
-    scale_size_manual(values=fp.fn.sizes)
-  library(directlabels)
-  direct.label(p+guides(linetype="none",colour="none",size="none"),
-               dl.combine("first.qp","last.qp"))
+  if(requireNamespace("jointseg") && require("ggplot2")){
+    result <- run.cghseg(signal, base, maxSegments=15)
+    components <- errorComponents(result$breaks, mu.break.after, length(mu))
+    p <- ggplot(components,aes(segments,error))+
+      geom_line(aes(size=type,colour=type,linetype=type))+
+      scale_linetype_manual(values=fp.fn.linetypes)+
+      scale_colour_manual(values=fp.fn.colors)+
+      scale_size_manual(values=fp.fn.sizes)
+  }
+  if(require(directlabels)){
+    direct.label(
+      p+guides(linetype="none",colour="none",size="none"),
+      dl.combine("first.qp","last.qp"))
+  }
+  
 })
 
 breakpointError <- structure(function
@@ -146,25 +153,26 @@ breakpointError <- structure(function
 
   ## Segment that signal with cghseg, and quantify model fit using the
   ## breakpointError.
-  result <- run.cghseg(signal,base)
-  result$error <-
-    sapply(result$breaks, breakpointError, mu.break.after, length(mu))
-  plot(signal~base,
-       main="Estimated signal (green) and noisy observations (black)")
-  k <- 4
-  with(subset(result$seg,segments==k),{
-    segments(first.base,mean,last.base,mean,
-             col=signal.colors[["estimate"]],lwd=3)
-    abline(v=first.base[-1],
-           col=signal.colors[["estimate"]],lty="dashed",lwd=2)
-  })
-
-  ## Plot the breakpointError versus estimated model size.
-  plot(result$error,type="n",
-       main="breakpointError of estimated signals",
-       xlab="k = number of segments in estimated signal",
-       ylab="breakpointError(k)")
-  abline(v=k,lwd=10,col=signal.colors[["estimate"]])
-  lines(result$error)
-  points(result$error)
+  if(requireNamespace("jointseg")){
+    result <- run.cghseg(signal,base)
+    result$error <-
+      sapply(result$breaks, breakpointError, mu.break.after, length(mu))
+    plot(signal~base,
+         main="Estimated signal (green) and noisy observations (black)")
+    k <- 4
+    with(subset(result$seg,segments==k),{
+      segments(first.base,mean,last.base,mean,
+               col=signal.colors[["estimate"]],lwd=3)
+      abline(v=first.base[-1],
+             col=signal.colors[["estimate"]],lty="dashed",lwd=2)
+    })
+    ## Plot the breakpointError versus estimated model size.
+    plot(result$error,type="n",
+         main="breakpointError of estimated signals",
+         xlab="k = number of segments in estimated signal",
+         ylab="breakpointError(k)")
+    abline(v=k,lwd=10,col=signal.colors[["estimate"]])
+    lines(result$error)
+    points(result$error)
+  }
 })

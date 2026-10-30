@@ -117,12 +117,14 @@ segments can be found as a data.frame in \code{L\$segments}.
 plotsig("Noisy observations (black points) and estimated signal (green lines)")
 points(base, signal)
 kmax <- 6
-L <- run.cghseg(signal, base, kmax)
-k <- 3
-yhat <- subset(L$segments,segments==k)
-print(yhat)
-with(yhat,segments(first.base,mean,last.base,mean,col=signal.colors["estimate"]))
-abline(v=yhat$first.base[-1],col=signal.colors["estimate"],lty="dashed")
+if(requireNamespace("jointseg")){
+  L <- run.cghseg(signal, base, kmax)
+  k <- 3
+  yhat <- subset(L$segments,segments==k)
+  print(yhat)
+  with(yhat,segments(first.base,mean,last.base,mean,col=signal.colors["estimate"]))
+  abline(v=yhat$first.base[-1],col=signal.colors["estimate"],lty="dashed")
+}
 @ 
 
 The cghseg model tells us the points after which a break occurs, not
@@ -144,7 +146,7 @@ Note that this is a function $\phi:\RR^d\times \mathcal X^d\rightarrow
 in $\hat y^k$.
 
 <<shown-break>>=
-print(L$breaks[[k]])
+if(requireNamespace("jointseg"))print(L$breaks[[k]])
 @ 
 
 \newpage
@@ -155,7 +157,7 @@ break occured. These can be found in \code{L\$breaks} as a list of
 $k_{\text{max}}$ vectors.
 
 <<breaks>>=
-str(L$breaks)
+if(requireNamespace("jointseg"))str(L$breaks)
 @ 
 
 We would like to compare these estimated breakpoints to the

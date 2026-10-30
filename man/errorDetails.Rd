@@ -35,7 +35,10 @@ signal <- rnorm(length(base),mu[base],1)
 
 ## Segment that signal with cghseg, and quantify model fit using the
 ## breakpointError.
-result <- run.cghseg(signal,base,maxSegments=15)
-str(errorDetails(result$breaks[[4]], mu.break.after, length(mu)))
-str(errorDetails(result$breaks[[10]], mu.break.after, length(mu)))
+if(requireNamespace("jointseg")){
+  result <- run.cghseg(signal,base,maxSegments=15)
+  str(errorDetails(result$breaks[[4]], mu.break.after, length(mu)))
+  str(errorDetails(result$breaks[[10]], mu.break.after, length(mu)))
+}
+
 }

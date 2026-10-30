@@ -57,11 +57,14 @@ text(seq_along(latent),-1,atcg,cex=0.5)
 ## segments, and the first.base and last.base columns can be
 ## directly plotted.
 kmax <- 3
-model <- run.cghseg(signal, base, kmax)
-yhat <- subset(model$segments,segments==kmax)
-with(yhat,segments(first.base,mean,last.base,mean,
-                   col=signal.colors[["estimate"]]))
-## Likewise, the breakpoints can be drawn using break.df$base.
-break.df <- subset(model$break.df,segments==kmax)
-abline(v=break.df$base,col=signal.colors[["estimate"]],lty="dashed")
+if(requireNamespace("jointseg")){
+  model <- run.cghseg(signal, base, kmax)
+  yhat <- subset(model$segments,segments==kmax)
+  with(yhat,segments(first.base,mean,last.base,mean,
+                     col=signal.colors[["estimate"]]))
+  ## Likewise, the breakpoints can be drawn using break.df$base.
+  break.df <- subset(model$break.df,segments==kmax)
+  abline(v=break.df$base,col=signal.colors[["estimate"]],lty="dashed")
+}
+
 }

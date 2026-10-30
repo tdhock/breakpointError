@@ -26,14 +26,23 @@ each segment.}
 set.seed(1)
 y <- c(rnorm(50),rnorm(100,2))
 kmax <- 3
-result <- run.cghseg(y,maxSegments=kmax)
-signal.df <- data.frame(signal=y,base=seq_along(y))
-library(ggplot2)
-ggplot()+
-  geom_point(aes(base,signal),data=signal.df)+
-  geom_segment(aes(first.base,mean,xend=last.base,yend=mean),
-               data=result$segments,colour=signal.colors[["estimate"]],lwd=3)+
-  geom_vline(aes(xintercept=base),data=result$break.df,
-             colour=signal.colors[["estimate"]],linetype="dashed")+
-  facet_grid(segments~.,labeller=label_both)
+if(requireNamespace("jointseg") && require("ggplot2")){
+  result <- run.cghseg(y,maxSegments=kmax)
+  signal.df <- data.frame(signal=y,base=seq_along(y))
+  ggplot()+
+    geom_point(aes(
+      base,signal),
+      data=signal.df)+
+    geom_segment(aes(
+      first.base,mean,xend=last.base,yend=mean),
+      data=result$segments,
+      colour=signal.colors[["estimate"]],
+      lwd=3)+
+    geom_vline(aes(
+      xintercept=base),
+      data=result$break.df,
+      colour=signal.colors[["estimate"]],
+      linetype="dashed")+
+    facet_grid(segments~.,labeller=label_both)
+}
 }

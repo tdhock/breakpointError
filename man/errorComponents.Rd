@@ -35,15 +35,19 @@ signal <- rnorm(length(base),mu[base],1)
 
 ## Segment that signal with cghseg, and quantify model fit using the
 ## breakpointError.
-result <- run.cghseg(signal, base, maxSegments=15)
-components <- errorComponents(result$breaks, mu.break.after, length(mu))
-library(ggplot2)
-p <- ggplot(components,aes(segments,error))+
-  geom_line(aes(size=type,colour=type,linetype=type))+
-  scale_linetype_manual(values=fp.fn.linetypes)+
-  scale_colour_manual(values=fp.fn.colors)+
-  scale_size_manual(values=fp.fn.sizes)
-library(directlabels)
-direct.label(p+guides(linetype="none",colour="none",size="none"),
-             dl.combine("first.qp","last.qp"))
+if(requireNamespace("jointseg") && require("ggplot2")){
+  result <- run.cghseg(signal, base, maxSegments=15)
+  components <- errorComponents(result$breaks, mu.break.after, length(mu))
+  p <- ggplot(components,aes(segments,error))+
+    geom_line(aes(size=type,colour=type,linetype=type))+
+    scale_linetype_manual(values=fp.fn.linetypes)+
+    scale_colour_manual(values=fp.fn.colors)+
+    scale_size_manual(values=fp.fn.sizes)
+}
+if(require(directlabels)){
+  direct.label(
+    p+guides(linetype="none",colour="none",size="none"),
+    dl.combine("first.qp","last.qp"))
+}
+
 }

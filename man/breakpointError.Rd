@@ -39,25 +39,26 @@ abline(v=mu.break.after+1/2,lwd=2,col=signal.colors[["latent"]],lty="dashed")
 
 ## Segment that signal with cghseg, and quantify model fit using the
 ## breakpointError.
-result <- run.cghseg(signal,base)
-result$error <-
-  sapply(result$breaks, breakpointError, mu.break.after, length(mu))
-plot(signal~base,
-     main="Estimated signal (green) and noisy observations (black)")
-k <- 4
-with(subset(result$seg,segments==k),{
-  segments(first.base,mean,last.base,mean,
-           col=signal.colors[["estimate"]],lwd=3)
-  abline(v=first.base[-1],
-         col=signal.colors[["estimate"]],lty="dashed",lwd=2)
-})
-
-## Plot the breakpointError versus estimated model size.
-plot(result$error,type="n",
-     main="breakpointError of estimated signals",
-     xlab="k = number of segments in estimated signal",
-     ylab="breakpointError(k)")
-abline(v=k,lwd=10,col=signal.colors[["estimate"]])
-lines(result$error)
-points(result$error)
+if(requireNamespace("jointseg")){
+  result <- run.cghseg(signal,base)
+  result$error <-
+    sapply(result$breaks, breakpointError, mu.break.after, length(mu))
+  plot(signal~base,
+       main="Estimated signal (green) and noisy observations (black)")
+  k <- 4
+  with(subset(result$seg,segments==k),{
+    segments(first.base,mean,last.base,mean,
+             col=signal.colors[["estimate"]],lwd=3)
+    abline(v=first.base[-1],
+           col=signal.colors[["estimate"]],lty="dashed",lwd=2)
+  })
+  ## Plot the breakpointError versus estimated model size.
+  plot(result$error,type="n",
+       main="breakpointError of estimated signals",
+       xlab="k = number of segments in estimated signal",
+       ylab="breakpointError(k)")
+  abline(v=k,lwd=10,col=signal.colors[["estimate"]])
+  lines(result$error)
+  points(result$error)
+}
 }
