@@ -1,12 +1,15 @@
-2016.10.25
+Changes in version 2026.10.30
 
-ggplot2 2.0
+- jointseg::Fpsn instead of cghseg::segmeanCO.
 
-2015.09.11
+Changes in version 2016.10.25
 
-errorRates function for computing ROC curves.
+- ggplot2 2.0
 
-1.0 --- 3 December 2012
+Changes in version 2015.09.11
 
-Tests, 2 vignettes, first version uploaded to R-Forge based on thesis
-inline code.
+- errorRates function for computing ROC curves.
+
+Changes in version 1.0 --- 3 December 2012
+
+- Tests, 2 vignettes, first version uploaded to R-Forge based on thesis inline code.

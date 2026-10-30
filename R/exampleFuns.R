@@ -39,8 +39,7 @@ run.cghseg <- structure(function
   }
   n <- length(Y)
   kmax <- min(maxSegments,n)#k is the number of SEGMENTS not BREAKPOINTS
-  segmeanCO <- get("segmeanCO", envir=asNamespace("cghseg"))
-  result <- segmeanCO(Y,kmax)
+  result <- jointseg::Fpsn(Y,kmax)
   result$segments <- data.frame()
   result$breaks <- list()
   result$break.df <- data.frame()

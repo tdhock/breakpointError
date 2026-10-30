@@ -1,0 +1,3 @@
+breakpointError R package
+
+For reproducing [[https://arxiv.org/pdf/1509.00368][this arXiv paper]], using [[https://github.com/tdhock/breakpointError-orig/tree/JRepStat#summary-table-of-issues-and-solutions][this R code]].
