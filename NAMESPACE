@@ -1,2 +1,2 @@
 exportPattern("^[[:alpha:]]+")
-useDynLib(breakpointError)
+useDynLib(breakpointError, .registration=TRUE)
