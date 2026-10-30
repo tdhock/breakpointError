@@ -71,3 +71,18 @@ breakpointError_interface
 			   guess_ptr,guess_count[0],
 			   last_base[0]);
 }
+
+static const R_CallMethodDef CallEntries[] = {
+    {"errorDetails_interface", (DL_FUNC) &errorDetails_interface, 3},
+    {NULL, NULL, 0}
+};
+
+static const R_CMethodDef CEntries[] = {
+    {"breakpointError_interface", (DL_FUNC) &breakpointError_interface, 6},
+    {NULL, NULL, 0}
+};
+
+void R_init_directlabels(DllInfo *dll) {
+    R_registerRoutines(dll, CEntries, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
+}

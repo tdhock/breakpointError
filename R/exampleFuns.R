@@ -25,7 +25,7 @@ run.cghseg <- structure(function
 ### Estimate the least squares model for a noisy signal. We use the
 ### cghseg package, which implements the pruned dynamic programming
 ### method of Rigaill (2010) to find, for all k=1,...,maxSegments:
-### argmin_{x has k segments} ||Y-x||^2_2.
+### argmin(x has k segments) ||Y-x||^2_2.
 (Y,
 ### Numeric vector of the noisy signal to segment.
  base=seq_along(Y),
